@@ -4,10 +4,13 @@ import fetchApi from '../serviceApi/fetchApi';
 export const LOGIN = 'LOGIN';
 export const VALOR = 'VALOR';
 export const EXPENSE = 'EXPENSE';
+export const DELETE = 'DELETE';
+
 export const recordUser = (user) => ({ type: LOGIN, user });
 
 export const moedas = (payload) => ({ type: VALOR, payload });
 export const despesaUser = (payload) => ({ type: EXPENSE, payload });
+export const deleteUser = (payload) => ({ type: DELETE, payload });
 
 export const allMoedas = () => (dispatch) => {
   fetchApi().then((data) => {

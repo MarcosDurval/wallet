@@ -32,7 +32,8 @@ class Forms extends React.Component {
         <input
           name="value"
           id="valor"
-          type="text"
+          type="Number"
+          step=".02"
           onChange={ this.addDespesa }
         />
       </label>
@@ -41,6 +42,7 @@ class Forms extends React.Component {
 
   moeda() {
     const { coins } = this.props;
+    console.log(coins);
     return (
       <label htmlFor="Moeda">
         Moeda:
@@ -100,7 +102,7 @@ class Forms extends React.Component {
     const { props: { expenses, despesa, coins, falha } } = this;
     falha();
     this.setState({ exchangeRates: coins },
-      async () => {
+      () => {
         const concExpenses = expenses.concat(this.state);
         this.setState((prevent) => ({ id: prevent.id + 1 }));
         despesa(concExpenses);

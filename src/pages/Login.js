@@ -20,17 +20,9 @@ class Login extends React.Component {
   login(e) {
     const { state: { email }, props: { dispatchValue } } = this;
     dispatchValue(email);
-    // history.push('/carteira');
     this.setState({ shouldRedirect: false });
     e.preventDefault();
   }
-
-  // newRouter() {
-  //   const { props: { history }, state: { button } } = this;
-  //   if (!button) {
-  //     history.push('/carteira');
-  //   }
-  // }
 
   handleChange({ target }) {
     const { name, value } = target;

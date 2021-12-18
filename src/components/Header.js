@@ -12,12 +12,18 @@ class Header extends React.Component {
     this.auxiliar = this.auxiliar.bind(this);
   }
 
-  componentDidUpdate() {
-    this.auxiliar();
+  componentDidUpdate(prevProps, props) {
+    if (prevProps.dados !== props.dados) {
+      this.auxiliar();
+    }
   }
 
   auxiliar() {
     const { props: { dados }, state: { valor } } = this;
+    // const soma = dados.reduce((acc, curr) => acc + curr.value, 0);
+    console.log(dados);
+    const teste = JSON.stringify(dados);
+    console.log(`${teste.currency} testador`);
     if (dados !== valor) {
       let final = 0;
       dados.forEach((element) => {
@@ -26,11 +32,11 @@ class Header extends React.Component {
         Object.keys(element.exchangeRates).forEach((moeda) => {
           if (name === moeda) {
             const cotacao = parseFloat(element.exchangeRates[moeda].ask);
-            final = Math.round((cotacao * value) * 100) / 100;
+            final += Math.round((cotacao * value) * 100) / 100;
           }
         });
       });
-      this.setState((prevent) => ({ valor: dados, soma: prevent.soma + final }));
+      this.setState((prevent) => ({ valor: dados, soma: final }));
     }
   }
 
