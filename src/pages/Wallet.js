@@ -5,6 +5,7 @@ import { allMoedas } from '../actions';
 import Forms from '../components/Forms';
 import Header from '../components/Header';
 import Tabela from '../components/Tabela';
+import Load from './Load';
 
 class Wallet extends React.Component {
   componentDidMount() {
@@ -13,6 +14,12 @@ class Wallet extends React.Component {
   }
 
   render() {
+    const { currencies } = this.props;
+    if (currencies && currencies.length === 0) {
+      return (
+        <Load />
+      );
+    }
     return (
       <>
         <div>TrybeWallet</div>
@@ -26,8 +33,13 @@ class Wallet extends React.Component {
 const mapDispatchToprops = () => (dispatch) => ({
   dispatchFetch: () => dispatch(allMoedas()),
 });
+const mapStateToProps = (state) => ({
+  currencies: state.wallet.currencies,
+
+});
 Wallet.propTypes = {
+  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   dispatchFetch: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToprops)(Wallet);
+export default connect(mapStateToProps, mapDispatchToprops)(Wallet);
