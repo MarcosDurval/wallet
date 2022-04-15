@@ -41,8 +41,9 @@ class Login extends React.Component {
   }
 
   render() {
-    const { button, shouldRedirect } = this.state;
+    const { button, shouldRedirect, email } = this.state;
     if (!shouldRedirect) {
+      sessionStorage.setItem('email', JSON.stringify(email));
       return <Redirect to="/carteira" />;
     }
     return (
