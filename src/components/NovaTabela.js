@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteUser } from '../actions';
+import { deleteUser, editDepesa } from '../actions';
 
 class NovaTabela extends React.Component {
   constructor() {
@@ -14,7 +14,6 @@ class NovaTabela extends React.Component {
 
   nameMoeda({ currency, exchangeRates }) {
     let teste = 0;
-    // console.log(exchangeRates[currency]);
     Object.keys(exchangeRates).forEach((element) => {
       if (currency === element) {
         teste = exchangeRates[element].name;
@@ -25,34 +24,34 @@ class NovaTabela extends React.Component {
   }
 
   Moeda({ currency, exchangeRates }) {
-    let code = 0;
-    Object.keys(exchangeRates).forEach((element) => {
-      if (currency === element) {
-        code = exchangeRates[element].name;
+    const code = Object.keys(exchangeRates).reduce((acc, curr) => {
+      if (currency === curr) {
+        acc = exchangeRates[curr].name;
       }
-    });
+      return acc;
+    }, '');
     const name = code.split('/');
     return name[1];
   }
 
   Cambio({ currency, exchangeRates }) {
-    let teste = 0;
-    Object.keys(exchangeRates).forEach((element) => {
-      if (currency === element) {
-        teste = exchangeRates[element].ask;
+    const number = Object.keys(exchangeRates).reduce((acc, cur) => {
+      if (currency === cur) {
+        acc += parseFloat(exchangeRates[cur].ask);
       }
-    });
-    return Math.round((teste) * 100) / 100;
+      return acc;
+    }, 0).toFixed(2);
+    return number;
   }
 
   valor({ currency, exchangeRates, value }) {
-    let valor = 0;
-    Object.keys(exchangeRates).forEach((element) => {
-      if (currency === element) {
-        valor = exchangeRates[element].ask;
+    const number = Object.keys(exchangeRates).reduce((acc, cur) => {
+      if (currency === cur) {
+        acc += exchangeRates[cur].ask;
       }
-    });
-    return Math.round((valor * value) * 100) / 100;
+      return acc;
+    }, 0);
+    return (number * value).toFixed(2);
   }
 
   delete({ id }) {
@@ -60,20 +59,42 @@ class NovaTabela extends React.Component {
     remove(id);
   }
 
+  edit(dados) {
+    const { edit } = this.props;
+    edit(dados);
+  }
+
   render() {
     const { expense } = this.props;
     return (
-      <tr>
-        <td>{expense.description}</td>
-        <td>{expense.tag}</td>
-        <td>{expense.method}</td>
-        <td>{expense.value}</td>
-        <td>{this.nameMoeda(expense)}</td>
-        <td>{ this.Cambio(expense) }</td>
-        <td>{this.valor(expense)}</td>
-        <td>Real</td>
-        <button onClick={ () => this.delete(expense) } type="button">deletar</button>
-      </tr>
+      <tbody>
+        <tr>
+          <td>{expense.description}</td>
+          <td>{expense.tag}</td>
+          <td>{expense.method}</td>
+          <td>{expense.value}</td>
+          <td>{this.nameMoeda(expense)}</td>
+          <td>{ this.Cambio(expense) }</td>
+          <td>{this.valor(expense)}</td>
+          <td>Real</td>
+          <td>
+            <button
+              onClick={ () => this.edit(expense) }
+              type="button"
+              data-testid="edit-btn"
+            >
+              edit
+            </button>
+            <button
+              onClick={ () => this.delete(expense) }
+              type="button"
+              data-testid="delete-btn"
+            >
+              deletar
+            </button>
+          </td>
+        </tr>
+      </tbody>
     );
   }
 }
@@ -82,11 +103,14 @@ NovaTabela.propTypes = {
     description: PropTypes.string,
     tag: PropTypes.string,
     method: PropTypes.string,
-    value: PropTypes.number,
+    value: PropTypes.string,
   }).isRequired,
+  edit: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
 };
 const dispatchToProps = (dispatch) => ({
   remove: (payload) => dispatch(deleteUser(payload)),
+  edit: (payload) => dispatch(editDepesa(payload)),
 });
 
 export default connect(null, dispatchToProps)(NovaTabela);
