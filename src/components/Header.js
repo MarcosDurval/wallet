@@ -12,18 +12,14 @@ class Header extends React.Component {
     this.auxiliar = this.auxiliar.bind(this);
   }
 
-  componentDidUpdate(prevProps, props) {
-    if (prevProps.dados !== props.dados) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.dados) {
       this.auxiliar();
     }
   }
 
   auxiliar() {
     const { props: { dados }, state: { valor } } = this;
-    // const soma = dados.reduce((acc, curr) => acc + curr.value, 0);
-    console.log(dados);
-    const teste = JSON.stringify(dados);
-    console.log(`${teste.currency} testador`);
     if (dados !== valor) {
       let final = 0;
       dados.forEach((element) => {
@@ -36,7 +32,7 @@ class Header extends React.Component {
           }
         });
       });
-      this.setState((prevent) => ({ valor: dados, soma: final }));
+      this.setState(() => ({ valor: dados, soma: final }));
     }
   }
 
@@ -50,7 +46,7 @@ class Header extends React.Component {
         <h6>
           Depesas totais:
         </h6>
-        <p data-testid="total-field">{soma}</p>
+        <p data-testid="total-field">{soma.toFixed(2)}</p>
         <p data-testid="header-currency-field">BRL</p>
       </div>
     );
@@ -58,7 +54,7 @@ class Header extends React.Component {
 }
 Header.propTypes = {
   emailUser: PropTypes.string.isRequired,
-  dados: PropTypes.arrayOf([]).isRequired,
+  dados: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = (state) => ({
