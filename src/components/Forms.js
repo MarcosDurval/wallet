@@ -46,7 +46,7 @@ class Forms extends React.Component {
         type="Number"
         name="value"
         id="valor"
-        label="valor: "
+        label="Valor: "
         value={ value }
         onChange={ this.addDespesa }
       />
