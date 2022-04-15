@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 };
 
-const reducer = (state = INITIAL_STATE, actions) => {
+const user = (state = INITIAL_STATE, actions) => {
   switch (actions.type) {
   case LOGIN:
     return { ...state, email: actions.user };
@@ -16,4 +16,4 @@ const reducer = (state = INITIAL_STATE, actions) => {
   }
 };
 
-export default reducer;
+export default user;
