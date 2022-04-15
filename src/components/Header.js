@@ -6,34 +6,25 @@ class Header extends React.Component {
   constructor() {
     super();
     this.state = {
-      valor: [],
+      dados: [],
       soma: 0,
     };
     this.auxiliar = this.auxiliar.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.dados) {
+  componentDidUpdate(prevProps, props) {
+    if (prevProps.dados !== props.dados) {
       this.auxiliar();
     }
   }
 
   auxiliar() {
-    const { props: { dados }, state: { valor } } = this;
-    if (dados !== valor) {
-      let final = 0;
-      dados.forEach((element) => {
-        const value = parseFloat(element.value);
-        const name = element.currency;
-        Object.keys(element.exchangeRates).forEach((moeda) => {
-          if (name === moeda) {
-            const cotacao = parseFloat(element.exchangeRates[moeda].ask);
-            final += Math.round((cotacao * value) * 100) / 100;
-          }
-        });
-      });
-      this.setState(() => ({ valor: dados, soma: final }));
-    }
+    const { props: { dados } } = this;
+    const sum = dados.reduce((acc, { value, currency, exchangeRates }) => {
+      acc += (parseFloat(exchangeRates[currency].ask) * value);
+      return acc;
+    }, 0);
+    this.setState(() => ({ dados, soma: sum }));
   }
 
   render() {
@@ -46,8 +37,11 @@ class Header extends React.Component {
         <h6>
           Depesas totais:
         </h6>
-        <p data-testid="total-field">{soma.toFixed(2)}</p>
-        <p data-testid="header-currency-field">BRL</p>
+        <p data-testid="total-field">
+          {soma.toLocaleString('pt-BR',
+            { style: 'currency', currency: 'BRL' })}
+        </p>
+
       </div>
     );
   }
