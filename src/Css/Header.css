@@ -1,0 +1,9 @@
+.infos {
+  display: flex;
+  justify-content: space-between;
+  margin: auto 10px;
+}
+
+.sum {
+  display: flex;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import '../Css/Header.css';
 
 class Header extends React.Component {
   constructor() {
@@ -28,26 +29,30 @@ class Header extends React.Component {
   }
 
   render() {
-    const { props: { emailUser }, state: { soma } } = this;
+    const emailUser = JSON.parse(sessionStorage.getItem('email'));
+    const { state: { soma } } = this;
     return (
-      <div>
-        <h6 data-testid="email-field">
-          {`Bem Vindo ${emailUser}`}
-        </h6>
-        <h6>
-          Depesas totais:
-        </h6>
-        <p data-testid="total-field">
-          {soma.toLocaleString('pt-BR',
-            { style: 'currency', currency: 'BRL' })}
-        </p>
-
+      <div className="infos">
+        <div>
+          <h6 data-testid="email-field">
+            {`Bem Vindo ${emailUser}`}
+          </h6>
+        </div>
+        <div className="sum">
+          <h6>
+            Depesas totais:
+          </h6>
+          <p data-testid="total-field">
+            {soma.toLocaleString('pt-BR',
+              { style: 'currency', currency: 'BRL' })}
+          </p>
+        </div>
       </div>
     );
   }
 }
 Header.propTypes = {
-  emailUser: PropTypes.string.isRequired,
+  // emailUser: PropTypes.string.isRequired,
   dados: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
