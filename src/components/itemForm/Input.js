@@ -12,6 +12,7 @@ class Input extends React.Component {
           name={ name }
           id={ id }
           step={ step }
+          min="1"
           value={ value }
           onChange={ onChange }
           required
