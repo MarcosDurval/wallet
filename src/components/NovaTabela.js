@@ -13,45 +13,27 @@ class NovaTabela extends React.Component {
   }
 
   nameMoeda({ currency, exchangeRates }) {
-    let teste = 0;
-    Object.keys(exchangeRates).forEach((element) => {
-      if (currency === element) {
-        teste = exchangeRates[element].name;
-      }
-    });
+    const teste = exchangeRates[currency].name;
     const name = teste.split('/');
     return name[0];
   }
 
   Moeda({ currency, exchangeRates }) {
-    const code = Object.keys(exchangeRates).reduce((acc, curr) => {
-      if (currency === curr) {
-        acc = exchangeRates[curr].name;
-      }
-      return acc;
-    }, '');
+    const code = exchangeRates[currency].name;
     const name = code.split('/');
     return name[1];
   }
 
   Cambio({ currency, exchangeRates }) {
-    const number = Object.keys(exchangeRates).reduce((acc, cur) => {
-      if (currency === cur) {
-        acc += parseFloat(exchangeRates[cur].ask);
-      }
-      return acc;
-    }, 0).toFixed(2);
-    return number;
+    const number = parseFloat(exchangeRates[currency].ask);
+
+    return number.toLocaleString('pt-BR', { maximumFractionDigits: 2 });
   }
 
   valor({ currency, exchangeRates, value }) {
-    const number = Object.keys(exchangeRates).reduce((acc, cur) => {
-      if (currency === cur) {
-        acc += exchangeRates[cur].ask;
-      }
-      return acc;
-    }, 0);
-    return (number * value).toFixed(2);
+    const number = (exchangeRates[currency].ask * value);
+
+    return number.toLocaleString('pt-BR', { maximumFractionDigits: 2 });
   }
 
   delete({ id }) {
