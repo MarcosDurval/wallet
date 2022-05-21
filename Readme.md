@@ -10,7 +10,7 @@ Bootstrap
 é necessário ter o docker-compose na versão 1.27.0 ou superior e que sua porta 3000 do localhost esteja 
 disponível  
 faça o clone do projeto e siga os passos abaixo
-### use o seguinte comando na raiz do projeto:
+### Use o seguinte comando na raiz do projeto:
 
 ```
 docker-compose up -d --build
