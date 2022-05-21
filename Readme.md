@@ -13,7 +13,7 @@ faça o clone do projeto e siga os passos abaixo
 ### use o seguinte comando na raiz do projeto:
 
 ```
-npm run docker-up
+docker-compose up -d --build
 ```
 agora basta acessar a porta 3000 do seu localhost
 ### Pare a execução usando:
