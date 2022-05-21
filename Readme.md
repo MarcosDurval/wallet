@@ -19,5 +19,5 @@ agora basta acessar a porta 3000 do seu localhost
 ### Pare a execução usando:
 
 ```
-npm run docker-down
+docker-compose down --remove-orphans
 ```
